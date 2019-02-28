@@ -34,6 +34,8 @@ window.Global = {
     roleCoinTotalCount : 0,
     rolePowerCount : 0,
 
+    //当前可以获得的金币数量
+    currentGetCoinCount : 0,
 
 
 };

@@ -20,6 +20,12 @@ cc.Class({
             displayName : "增加体力按钮",
             tooltip : "用于玩家进行体力的增加"
         },
+        settingBtn : {
+            default : null,
+            type : cc.Sprite,
+            displayName : "设置按钮",
+            tooltip : "用于玩家进行相关设置"
+        },
         diamondCount : {
             default : null,
             type : cc.Label,
@@ -48,12 +54,14 @@ cc.Class({
         this.addCoinBtn.node.on(cc.Node.EventType.TOUCH_END,this.addCoin,this);
         this.addPowerBtn.node.on(cc.Node.EventType.TOUCH_END,this.addPower,this);
         this.addDiamondBtn.node.on(cc.Node.EventType.TOUCH_END,this.addDiamond,this);
+        this.settingBtn.node.on(cc.Node.EventType.TOUCH_END,this.setting,this);
     },
     
     onDestroy(){
         this.addCoinBtn.node.off(cc.Node.EventType.TOUCH_END,this.addCoin,this);
         this.addPowerBtn.node.off(cc.Node.EventType.TOUCH_END,this.addPower,this);
         this.addDiamondBtn.node.off(cc.Node.EventType.TOUCH_END,this.addDiamond,this);
+        this.settingBtn.node.off(cc.Node.EventType.TOUCH_END,this.setting,this);
     },
 
     /**
@@ -84,6 +92,14 @@ cc.Class({
         this.dialog.getComponent("Dialog").modifyDialogContent("点击了增加体力按钮");
         var randomDiamond = Math.floor(Math.random() * 80);
         this.modifyPowerCount(randomDiamond);
+    },
+
+    /**
+     * 设置
+     */
+    setting : function(){
+        this.dialog.active = true;
+        this.dialog.getComponent("Dialog").modifyDialogContent("点击了设置按钮");
     },
 
     /**
