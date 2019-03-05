@@ -32,6 +32,28 @@ cc.Class({
             type : cc.Node,
             displayName : "金币升级面板"
         },
+        weaponSubItemPanel : {
+            default : null,
+            type : cc.ScrollView,
+            displayName : "副武器列表面板"
+        },
+
+        //当副武器面板显示出来后，需要隐藏或改变其他部分的UI
+        player : {
+            default : null,
+            type : cc.Sprite,
+            displayName : "玩家飞机"
+        },
+        shootTipLabel : {
+            default : null,
+            type : cc.Label,
+            displayName : "提示文字"
+        },
+        slideBarContainer : {
+            default : null,
+            type : cc.Node,
+            displayName : "左边功能栏容器"
+        },
     },
 
     onLoad () {
@@ -41,6 +63,7 @@ cc.Class({
         this.mainWeaponSelected = false;
         this.subWeaponSelected = false;
         this.coinSelected = false;
+        this.weaponSubItemPanel.active = false;
         // var self = this;
         // this.myArr = [];
         // cc.loader.loadResDir("spriteFrames", cc.SpriteFrame, function (err, assets, urls) {
@@ -65,7 +88,6 @@ cc.Class({
      */
     showWeaponMainLevelUpPanel : function(){
         // cc.log(this.myArr);
-
         if(!this.mainWeaponSelected){
             this.mainWeaponSelected = true;
             this.subWeaponSelected = false;
@@ -73,7 +95,11 @@ cc.Class({
 
             this.weaponMainLevelUpContainer.active = true;
             this.weaponSubLevelUpContainer.active = false;
+            this.weaponSubItemPanel.active = false;
             this.coinLevelUpContainer.active = false;
+            this.shootTipLabel.active = false;
+
+            this.hideOrMoveUI();
     
             this.changeBtnSpriteFrame(this.weaponMainLevelUpBtn,"spriteFrames/bg_main_weapon_pressed");
             this.changeBtnSpriteFrame(this.weaponSubLevelUpBtn,"spriteFrames/bg_sub_weapon_normal");
@@ -95,7 +121,11 @@ cc.Class({
 
             this.weaponMainLevelUpContainer.active = false;
             this.weaponSubLevelUpContainer.active = true;
+            this.weaponSubItemPanel.active = true;
             this.coinLevelUpContainer.active = false;
+            this.shootTipLabel.active = false;
+
+            this.hideOrMoveUI();
     
             this.changeBtnSpriteFrame(this.weaponMainLevelUpBtn,"spriteFrames/bg_main_weapon_normal");
             this.changeBtnSpriteFrame(this.weaponSubLevelUpBtn,"spriteFrames/bg_sub_weapon_pressed");
@@ -110,16 +140,18 @@ cc.Class({
      * 显示金币升级面板
      */
     showCoinLevelUpPanel : function(){
-        cc.log("1");
         if(!this.coinSelected){
-            cc.log("2");
             this.mainWeaponSelected = false;
             this.subWeaponSelected = false;
             this.coinSelected = true;
 
             this.weaponMainLevelUpContainer.active = false;
             this.weaponSubLevelUpContainer.active = false;
+            this.weaponSubItemPanel.active = false;
             this.coinLevelUpContainer.active = true;
+            this.shootTipLabel.active = false;
+
+            this.hideOrMoveUI();
     
             this.changeBtnSpriteFrame(this.weaponMainLevelUpBtn,"spriteFrames/bg_main_weapon_normal");
             this.changeBtnSpriteFrame(this.weaponSubLevelUpBtn,"spriteFrames/bg_sub_weapon_normal");
@@ -140,6 +172,22 @@ cc.Class({
             btn.getComponent(cc.Sprite).spriteFrame = spriteFrame;
         });
     },
+
+    /**
+     * 隐藏左边SlideBar，并且向上移动player飞机
+     */
+    hideOrMoveUI : function(){
+        Global.fullScreenClicked = false;
+
+        // var finishedCallBack = cc.callFunc(function(target,show){
+        //     this.slideBarContainer.active = show;
+        // },this,false);
+        var myAction = cc.moveTo(1,-730,-5)
+        this.slideBarContainer.runAction(myAction);
+
+        var playerAction = cc.moveTo(1,-15,-40);
+        this.player.node.runAction(playerAction);
+    }
 
 
 });
