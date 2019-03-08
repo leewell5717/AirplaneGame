@@ -49,6 +49,9 @@ window.Global = {
 
     //是否点击了全屏遮罩（如果为false，表示显示了底部的升级面板；如果为true，当再次点击后，直接进行游戏对战）
     fullScreenClicked : true,
+    //是否开始游戏
+    isStartGame : false,
+
 
     
 
